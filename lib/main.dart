@@ -6,7 +6,6 @@ import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
 
 void main() {
-  // Initialize the ThemeController globally
   Get.put(ThemeController());
   runApp(const MyApp());
 }
