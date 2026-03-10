@@ -22,7 +22,7 @@ class CustomHeader extends StatelessWidget {
         Icon(
           icon,
           size: size.width * 0.2,
-          color: AppColors.primary,
+          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
         ),
         SizedBox(height: size.height * 0.05),
         Text(

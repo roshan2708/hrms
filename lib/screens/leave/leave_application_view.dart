@@ -64,10 +64,10 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w800,
-        color: AppColors.primary,
+        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
         letterSpacing: -0.5,
       ),
     );
@@ -77,9 +77,13 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Leave Type',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+          style: TextStyle(
+            fontSize: 13, 
+            fontWeight: FontWeight.w600, 
+            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+          ),
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
@@ -102,7 +106,11 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+          style: TextStyle(
+            fontSize: 13, 
+            fontWeight: FontWeight.w600, 
+            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+          ),
         ),
         const SizedBox(height: 8),
         InkWell(
@@ -135,7 +143,11 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.calendar_today_rounded, size: 18, color: AppColors.accent),
+                Icon(
+                  Icons.calendar_today_rounded, 
+                  size: 18, 
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.accent,
+                ),
                 const SizedBox(width: 12),
                 Text(
                   DateFormat('dd MMM').format(date),
@@ -153,9 +165,13 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Reason for Leave',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+          style: TextStyle(
+            fontSize: 13, 
+            fontWeight: FontWeight.w600, 
+            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+          ),
         ),
         const SizedBox(height: 8),
         TextFormField(

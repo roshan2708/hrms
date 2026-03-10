@@ -17,11 +17,16 @@ class AttendanceActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: EdgeInsets.all(size.width * 0.06),
       decoration: BoxDecoration(
-        color: isCheckedIn ? AppColors.accent : AppColors.primary,
+        color: isDark 
+            ? AppColors.darkSurface 
+            : (isCheckedIn ? AppColors.accent : AppColors.primary),
         borderRadius: BorderRadius.circular(24),
+        border: isDark ? Border.all(color: AppColors.darkBorder) : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

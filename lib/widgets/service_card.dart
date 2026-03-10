@@ -34,10 +34,10 @@ class ServiceCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.accent.withValues(alpha: 0.1),
+                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(icon, size: 24, color: AppColors.accent),
+                    child: Icon(icon, size: 24, color: Theme.of(context).colorScheme.secondary),
                   ),
                   const SizedBox(height: 12),
                   Text(

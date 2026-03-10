@@ -15,6 +15,10 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final secondaryColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final primaryTextColor = isDark ? Colors.white : AppColors.primary;
+
     return Card(
       margin: EdgeInsets.only(right: size.width * 0.04),
       child: Container(
@@ -26,7 +30,7 @@ class StatCard extends StatelessWidget {
             Text(
               title,
               style: AppTypography.caption(context).copyWith(
-                color: AppColors.lightTextSecondary,
+                color: secondaryColor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -35,7 +39,7 @@ class StatCard extends StatelessWidget {
               value,
               style: AppTypography.title(context).copyWith(
                 fontSize: 22,
-                color: AppColors.primary,
+                color: primaryTextColor,
                 letterSpacing: -0.5,
               ),
             ),

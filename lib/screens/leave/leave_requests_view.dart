@@ -26,14 +26,17 @@ class LeaveRequestsView extends GetView<LeaveController> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final secondaryColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+
         if (controller.leaveRequests.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.beach_access_rounded, size: 64, color: AppColors.lightTextSecondary.withOpacity(0.2)),
+                Icon(Icons.beach_access_rounded, size: 64, color: secondaryColor.withOpacity(0.2)),
                 const SizedBox(height: 16),
-                const Text('No leave requests found'),
+                Text('No leave requests found', style: TextStyle(color: secondaryColor)),
               ],
             ),
           );
@@ -53,8 +56,8 @@ class LeaveRequestsView extends GetView<LeaveController> {
         onPressed: () => Get.toNamed(Routes.applyLeave),
         label: const Text('New Request'),
         icon: const Icon(Icons.add_rounded),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
+        foregroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
       ),
     );
   }
@@ -80,6 +83,9 @@ class LeaveRequestsView extends GetView<LeaveController> {
         statusIcon = Icons.info_rounded;
     }
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = isDark ? Colors.white : AppColors.accent;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -92,13 +98,13 @@ class LeaveRequestsView extends GetView<LeaveController> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withOpacity(0.1),
+                    color: accentColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     request.leaveType,
-                    style: const TextStyle(
-                      color: AppColors.accent,
+                    style: TextStyle(
+                      color: accentColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -124,11 +130,11 @@ class LeaveRequestsView extends GetView<LeaveController> {
             Row(
               children: [
                 Expanded(
-                  child: _buildDateCol('Start Date', request.startDate),
+                  child: _buildDateCol(context, 'Start Date', request.startDate),
                 ),
-                Container(width: 1, height: 30, color: AppColors.lightBorder, margin: const EdgeInsets.symmetric(horizontal: 16)),
+                Container(width: 1, height: 30, color: isDark ? AppColors.darkBorder : AppColors.lightBorder, margin: const EdgeInsets.symmetric(horizontal: 16)),
                 Expanded(
-                  child: _buildDateCol('End Date', request.endDate),
+                  child: _buildDateCol(context, 'End Date', request.endDate),
                 ),
               ],
             ),
@@ -138,7 +144,11 @@ class LeaveRequestsView extends GetView<LeaveController> {
               const SizedBox(height: 8),
               Text(
                 'Reason',
-                style: TextStyle(color: AppColors.lightTextSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary, 
+                  fontSize: 11, 
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -154,13 +164,14 @@ class LeaveRequestsView extends GetView<LeaveController> {
     );
   }
 
-  Widget _buildDateCol(String label, DateTime date) {
+  Widget _buildDateCol(BuildContext context, String label, DateTime date) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(color: AppColors.lightTextSecondary, fontSize: 11),
+          style: TextStyle(color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary, fontSize: 11),
         ),
         const SizedBox(height: 4),
         Text(

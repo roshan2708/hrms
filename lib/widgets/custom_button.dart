@@ -23,7 +23,8 @@ class CustomButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           vertical: size.height * 0.02,
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
+        foregroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackground : Colors.white,
       ),
       child: isLoading
           ? const SizedBox(

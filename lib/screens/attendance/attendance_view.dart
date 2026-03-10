@@ -10,6 +10,9 @@ class AttendanceView extends GetView<AttendanceController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final secondaryColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Attendance History'),
@@ -24,9 +27,9 @@ class AttendanceView extends GetView<AttendanceController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.calendar_today_outlined, size: 64, color: AppColors.lightTextSecondary.withOpacity(0.3)),
+                Icon(Icons.calendar_today_outlined, size: 64, color: secondaryColor.withOpacity(0.3)),
                 const SizedBox(height: 16),
-                Text('No records found', style: TextStyle(color: AppColors.lightTextSecondary)),
+                Text('No records found', style: TextStyle(color: secondaryColor)),
               ],
             ),
           );
@@ -53,9 +56,10 @@ class AttendanceView extends GetView<AttendanceController> {
   }
 
   Widget _buildSummaryHeader(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-      color: AppColors.primary,
+      color: isDark ? AppColors.darkSurface : AppColors.primary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -123,13 +127,16 @@ class AttendanceView extends GetView<AttendanceController> {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.access_time_rounded, size: 14, color: AppColors.lightTextSecondary),
+                      Icon(Icons.access_time_rounded, size: 14, color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary),
                       const SizedBox(width: 6),
                       Text(
                         record.checkInTime != null 
                           ? '${DateFormat('hh:mm a').format(record.checkInTime!)} - ${record.checkOutTime != null ? DateFormat('hh:mm a').format(record.checkOutTime!) : '--:--'}'
                           : '--:-- - --:--',
-                        style: const TextStyle(color: AppColors.lightTextSecondary, fontSize: 13),
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary, 
+                          fontSize: 13,
+                        ),
                       ),
                     ],
                   ),
@@ -139,7 +146,7 @@ class AttendanceView extends GetView<AttendanceController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: statusColor.withValues(alpha: 0.1),
+                color: statusColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

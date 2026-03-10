@@ -78,11 +78,11 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: AppColors.accent,
+      primaryColor: Colors.white,
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.accent,
-        secondary: AppColors.accent,
+        primary: Colors.white,
+        secondary: Colors.white,
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkTextPrimary,
         error: AppColors.error,
@@ -97,7 +97,9 @@ class AppTheme {
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
+      iconTheme: const IconThemeData(color: Colors.white),
       cardTheme: CardThemeData(
         elevation: 0,
         color: AppColors.darkSurface,
@@ -112,8 +114,8 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accent,
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          foregroundColor: AppColors.darkBackground,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -138,9 +140,11 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.accent, width: 2),
+          borderSide: const BorderSide(color: Colors.white, width: 2),
         ),
         labelStyle: const TextStyle(color: AppColors.darkTextSecondary),
+        prefixIconColor: Colors.white,
+        suffixIconColor: Colors.white,
       ),
       useMaterial3: true,
     );

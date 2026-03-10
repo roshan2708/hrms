@@ -139,7 +139,7 @@ class DashboardView extends GetView<DashboardController> {
               'Quick Services',
               style: AppTypography.subtitle(context).copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
               ),
             ),
             TextButton(
@@ -194,7 +194,7 @@ class DashboardView extends GetView<DashboardController> {
           'Recent Activity',
           style: AppTypography.subtitle(context).copyWith(
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
           ),
         ),
         const SizedBox(height: 16),

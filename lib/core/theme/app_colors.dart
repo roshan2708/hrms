@@ -15,9 +15,9 @@ class AppColors {
   static const Color lightTextSecondary = Color(0xFF64748B);
   static const Color lightBorder = Color(0xFFE2E8F0);
 
-  static const Color darkBackground = Color(0xFF020617);
-  static const Color darkSurface = Color(0xFF0F172A);
-  static const Color darkTextPrimary = Color(0xFFF8FAFC);
-  static const Color darkTextSecondary = Color(0xFF94A3B8);
-  static const Color darkBorder = Color(0xFF1E293B);
+  static const Color darkBackground = Color(0xFF000000); // Pure Black
+  static const Color darkSurface = Color(0xFF121212); // Deep Charcoal
+  static const Color darkTextPrimary = Color(0xFFFFFFFF); // Pure White
+  static const Color darkTextSecondary = Color(0xFFB0B0B0); // Light Grey
+  static const Color darkBorder = Color(0xFF2C2C2C); // Dark Grey Border
 }

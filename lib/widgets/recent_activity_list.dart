@@ -33,7 +33,7 @@ class RecentActivityList extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(
                   Icons.history,
-                  color: AppColors.primary,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
                   size: size.width * 0.05,
                 ),
                 title: Text(

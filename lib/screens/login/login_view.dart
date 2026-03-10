@@ -57,7 +57,7 @@ class LoginView extends GetView<LoginController> {
                       child: Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : AppColors.primary,
                           fontSize: AppTypography.caption(context).fontSize,
                         ),
                       ),
