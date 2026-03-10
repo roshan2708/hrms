@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
 import '../../core/theme/theme_controller.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../../widgets/profile_header.dart';
@@ -95,22 +97,18 @@ class DashboardView extends GetView<DashboardController> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          Obx(
-            () => GestureDetector(
-              onTap: controller.openLeaveManagement,
-              child: StatCard(
-                title: 'Leaves Left',
-                value: '${controller.remainingLeaveDays.value}',
-              ),
+          GestureDetector(
+            onTap: controller.openLeaveManagement,
+            child: StatCard(
+              title: 'Leaves Left',
+              value: '${controller.remainingLeaveDays.value}',
             ),
           ),
-          Obx(
-            () => GestureDetector(
-              onTap: controller.openAttendance,
-              child: StatCard(
-                title: 'Attendance',
-                value: '${controller.monthlyAttendancePercent.value}%',
-              ),
+          GestureDetector(
+            onTap: controller.openAttendance,
+            child: StatCard(
+              title: 'Attendance',
+              value: '${controller.monthlyAttendancePercent.value}%',
             ),
           ),
           StatCard(
@@ -123,57 +121,87 @@ class DashboardView extends GetView<DashboardController> {
   }
 
   Widget _buildAttendanceActionCard(BuildContext context, Size size) {
-    return Obx(() {
-      return AttendanceActionCard(
-        isCheckedIn: controller.isCheckedIn.value,
-        formattedWorkedTime: controller.formattedWorkedTime,
-        onToggleCheckIn: controller.toggleCheckIn,
-      );
-    });
+    return AttendanceActionCard(
+      isCheckedIn: controller.isCheckedIn.value,
+      formattedWorkedTime: controller.formattedWorkedTime,
+      onToggleCheckIn: controller.toggleCheckIn,
+    );
   }
 
   Widget _buildServicesGrid(BuildContext context, Size size) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: size.width * 0.04,
-      crossAxisSpacing: size.width * 0.04,
-      childAspectRatio: 1.2,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Obx(
-          () => ServiceCard(
-            title: 'Leave',
-            icon: Icons.beach_access,
-            onTap: controller.openLeaveManagement,
-            badgeStat: '${controller.pendingLeaves.value} Pending',
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Quick Services',
+              style: AppTypography.subtitle(context).copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text('See All'),
+            ),
+          ],
         ),
-        ServiceCard(
-          title: 'Payroll',
-          icon: Icons.request_quote,
-          onTap: controller.openPayroll,
-        ),
-        Obx(
-          () => ServiceCard(
-            title: 'Notices',
-            icon: Icons.campaign,
-            onTap: controller.openNotifications,
-            badgeStat: '${controller.unreadNotifications.value} New',
-          ),
-        ),
-        ServiceCard(
-          title: 'Directory',
-          icon: Icons.groups,
-          onTap: controller.openDirectory,
+        const SizedBox(height: 12),
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+          childAspectRatio: 1.3,
+          children: [
+            ServiceCard(
+              title: 'Leave',
+              icon: Icons.calendar_month_rounded,
+              onTap: controller.openLeaveManagement,
+              badgeStat: controller.pendingLeaves.value > 0
+                  ? '${controller.pendingLeaves.value}'
+                  : null,
+            ),
+            ServiceCard(
+              title: 'Attendance',
+              icon: Icons.fact_check_rounded,
+              onTap: controller.openAttendance,
+            ),
+            ServiceCard(
+              title: 'Payroll',
+              icon: Icons.account_balance_wallet_rounded,
+              onTap: controller.openPayroll,
+            ),
+            ServiceCard(
+              title: 'Colleagues',
+              icon: Icons.diversity_3_rounded,
+              onTap: controller.openDirectory,
+            ),
+          ],
         ),
       ],
     );
   }
 
   Widget _buildRecentActivity(BuildContext context, Size size) {
-    return RecentActivityList(
-      activities: controller.recentActivities,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recent Activity',
+          style: AppTypography.subtitle(context).copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
+        const SizedBox(height: 16),
+        RecentActivityList(
+          activities: controller.recentActivities,
+        ),
+      ],
     );
   }
 }

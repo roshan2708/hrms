@@ -51,7 +51,7 @@ class AttendanceActionCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: Colors.white.withOpacity(0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -66,6 +66,7 @@ class AttendanceActionCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
+              key: const ValueKey('attendance_toggle_btn'),
               onPressed: onToggleCheckIn,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,

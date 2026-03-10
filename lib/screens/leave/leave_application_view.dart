@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/leave_controller.dart';
 import '../../models/leave_model.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:intl/intl.dart';
 
 class LeaveApplicationView extends StatefulWidget {
@@ -20,27 +21,6 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
   DateTime _endDate = DateTime.now().add(const Duration(days: 1));
   final _reasonController = TextEditingController();
 
-  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: isStartDate ? _startDate : _endDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() {
-        if (isStartDate) {
-          _startDate = picked;
-          if (_endDate.isBefore(_startDate)) {
-            _endDate = _startDate.add(const Duration(days: 1));
-          }
-        } else {
-          _endDate = picked;
-        }
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,80 +28,31 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
         title: const Text('Apply for Leave'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(24.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              DropdownButtonFormField<String>(
-                value: _leaveType,
-                decoration: const InputDecoration(
-                  labelText: 'Leave Type',
-                  border: OutlineInputBorder(),
-                ),
-                items: ['Sick Leave', 'Casual Leave', 'Vacation', 'Other']
-                    .map((label) => DropdownMenuItem(
-                          value: label,
-                          child: Text(label),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _leaveType = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                title: const Text('Start Date'),
-                subtitle: Text(DateFormat('yyyy-MM-dd').format(_startDate)),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () => _selectDate(context, true),
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                title: const Text('End Date'),
-                subtitle: Text(DateFormat('yyyy-MM-dd').format(_endDate)),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () => _selectDate(context, false),
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _reasonController,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Reason',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a reason';
-                  }
-                  return null;
-                },
+              _buildSectionHeader('Leave Details'),
+              const SizedBox(height: 20),
+              _buildDropdownField(),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(child: _buildDatePicker('Start Date', _startDate, true)),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildDatePicker('End Date', _endDate, false)),
+                ],
               ),
               const SizedBox(height: 24),
+              _buildReasonField(),
+              const SizedBox(height: 48),
               Obx(() => ElevatedButton(
                 onPressed: _controller.isLoading.value ? null : _submitForm,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
                 child: _controller.isLoading.value
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Submit Application'),
+                    ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                    : const Text('SUBMIT APPLICATION'),
               )),
             ],
           ),
@@ -130,10 +61,119 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
     );
   }
 
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primary,
+        letterSpacing: -0.5,
+      ),
+    );
+  }
+
+  Widget _buildDropdownField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Leave Type',
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+        ),
+        const SizedBox(height: 8),
+        DropdownButtonFormField<String>(
+          value: _leaveType,
+          onChanged: (val) => setState(() => _leaveType = val!),
+          items: ['Sick Leave', 'Casual Leave', 'Vacation', 'Other']
+              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+              .toList(),
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDatePicker(String label, DateTime date, bool isStart) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+        ),
+        const SizedBox(height: 8),
+        InkWell(
+          onTap: () async {
+            final picked = await showDatePicker(
+              context: context,
+              initialDate: date,
+              firstDate: DateTime.now().subtract(const Duration(days: 0)),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+            );
+            if (picked != null) {
+              setState(() {
+                if (isStart) {
+                  _startDate = picked;
+                  if (_endDate.isBefore(_startDate)) {
+                    _endDate = _startDate.add(const Duration(days: 1));
+                  }
+                } else {
+                  _endDate = picked;
+                }
+              });
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardTheme.color,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Theme.of(context).dividerTheme.color ?? Colors.grey.shade300),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.calendar_today_rounded, size: 18, color: AppColors.accent),
+                const SizedBox(width: 12),
+                Text(
+                  DateFormat('dd MMM').format(date),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildReasonField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Reason for Leave',
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.lightTextSecondary),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _reasonController,
+          maxLines: 4,
+          decoration: const InputDecoration(
+            hintText: 'Describe your reason...',
+          ),
+          validator: (val) => val == null || val.isEmpty ? 'Reason is required' : null,
+        ),
+      ],
+    );
+  }
+
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       final request = LeaveRequest(
-        id: '', // Backend will generate
+        id: '',
         employeeId: 'EMP001',
         leaveType: _leaveType,
         startDate: _startDate,
@@ -141,11 +181,7 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
         status: 'Pending',
         reason: _reasonController.text,
       );
-      _controller.applyLeave(request).then((_) {
-        // Only go back on success if managed by controller properly
-        // For simplicity, we assume snackbar shows feedback and we can stay or go back
-        Get.back();
-      });
+      _controller.applyLeave(request).then((_) => Get.back());
     }
   }
 }

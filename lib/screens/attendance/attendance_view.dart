@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/attendance_controller.dart';
+import '../../models/attendance_model.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:intl/intl.dart';
 
 class AttendanceView extends GetView<AttendanceController> {
@@ -18,49 +20,140 @@ class AttendanceView extends GetView<AttendanceController> {
         }
         
         if (controller.attendanceList.isEmpty) {
-          return const Center(child: Text('No attendance records found'));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.calendar_today_outlined, size: 64, color: AppColors.lightTextSecondary.withOpacity(0.3)),
+                const SizedBox(height: 16),
+                Text('No records found', style: TextStyle(color: AppColors.lightTextSecondary)),
+              ],
+            ),
+          );
         }
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: controller.attendanceList.length,
-          itemBuilder: (context, index) {
-            final record = controller.attendanceList[index];
-            return Card(
-              margin: const EdgeInsets.only(bottom: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+        return Column(
+          children: [
+            _buildSummaryHeader(context),
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(20),
+                itemCount: controller.attendanceList.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final record = controller.attendanceList[index];
+                  return _buildAttendanceCard(context, record);
+                },
               ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: record.status == 'Present' 
-                    ? Colors.green.withOpacity(0.1) 
-                    : Colors.red.withOpacity(0.1),
-                  child: Icon(
-                    record.status == 'Present' ? Icons.check_circle : Icons.cancel,
-                    color: record.status == 'Present' ? Colors.green : Colors.red,
-                  ),
-                ),
-                title: Text(
-                  DateFormat('EEEE, MMM d, yyyy').format(record.date),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Status: ${record.status}'),
-                    if (record.checkInTime != null)
-                      Text('In: ${DateFormat('hh:mm a').format(record.checkInTime!)}'),
-                    if (record.checkOutTime != null)
-                      Text('Out: ${DateFormat('hh:mm a').format(record.checkOutTime!)}'),
-                  ],
-                ),
-                isThreeLine: record.checkInTime != null,
-              ),
-            );
-          },
+            ),
+          ],
         );
       }),
+    );
+  }
+
+  Widget _buildSummaryHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      color: AppColors.primary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildSummaryItem('Present', '20', Icons.check_circle_rounded, AppColors.success),
+          _buildSummaryItem('Late', '2', Icons.watch_later_rounded, AppColors.warning),
+          _buildSummaryItem('Absent', '1', Icons.cancel_rounded, AppColors.error),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryItem(String label, String value, IconData icon, Color color) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: Colors.white, size: 18),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white60, fontSize: 12),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAttendanceCard(BuildContext context, AttendanceRecord record) {
+    bool isPresent = record.status.toLowerCase() == 'present';
+    Color statusColor = isPresent ? AppColors.success : AppColors.error;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: statusColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                isPresent ? Icons.login_rounded : Icons.logout_rounded,
+                color: statusColor,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat('EEEE, MMM d').format(record.date),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.access_time_rounded, size: 14, color: AppColors.lightTextSecondary),
+                      const SizedBox(width: 6),
+                      Text(
+                        record.checkInTime != null 
+                          ? '${DateFormat('hh:mm a').format(record.checkInTime!)} - ${record.checkOutTime != null ? DateFormat('hh:mm a').format(record.checkOutTime!) : '--:--'}'
+                          : '--:-- - --:--',
+                        style: const TextStyle(color: AppColors.lightTextSecondary, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: statusColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                record.status,
+                style: TextStyle(
+                  color: statusColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
