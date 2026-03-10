@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../controllers/login_controller.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/custom_header.dart';
+import '../../widgets/custom_button.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
@@ -22,48 +25,26 @@ class LoginView extends GetView<LoginController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.business_center,
-                    size: size.width * 0.2,
-                    color: AppColors.primary,
-                  ),
-                  SizedBox(height: size.height * 0.05),
-                  Text(
-                    'Welcome to HRMS',
-                    style: AppTypography.heading(context),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: size.height * 0.01),
-                  Text(
-                    'Sign in to continue',
-                    style: AppTypography.subtitle(context),
-                    textAlign: TextAlign.center,
+                  const CustomHeader(
+                    icon: Icons.business_center,
+                    title: 'Welcome to HRMS',
+                    subtitle: 'Sign in to continue',
                   ),
                   SizedBox(height: size.height * 0.08),
 
-                  TextFormField(
+                  CustomTextField(
                     controller: controller.emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                    labelText: 'Email',
+                    prefixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
                     validator: controller.validateEmail,
                   ),
                   SizedBox(height: size.height * 0.03),
 
-                  TextFormField(
+                  CustomTextField(
                     controller: controller.passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock_outline),
                     obscureText: true,
                     validator: controller.validatePassword,
                   ),
@@ -85,26 +66,10 @@ class LoginView extends GetView<LoginController> {
                   SizedBox(height: size.height * 0.05),
 
                   Obx(
-                    () => ElevatedButton(
-                      onPressed: controller.isLoading.value
-                          ? null
-                          : controller.login,
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.02,
-                        ),
-                        backgroundColor: AppColors.primary,
-                      ),
-                      child: controller.isLoading.value
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : Text('Login', style: AppTypography.button(context)),
+                    () => CustomButton(
+                      text: 'Login',
+                      onPressed: controller.login,
+                      isLoading: controller.isLoading.value,
                     ),
                   ),
                 ],
