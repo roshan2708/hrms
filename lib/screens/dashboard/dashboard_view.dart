@@ -47,37 +47,45 @@ class DashboardView extends GetView<DashboardController> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: size.width * 0.05,
-            vertical: size.height * 0.02,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildProfileHeader(context, size),
-              SizedBox(height: size.height * 0.03),
-              _buildQuickStatsList(context, size),
-              SizedBox(height: size.height * 0.03),
-              _buildAttendanceActionCard(context, size),
-              SizedBox(height: size.height * 0.03),
-              _buildServicesGrid(context, size),
-              SizedBox(height: size.height * 0.03),
-              _buildRecentActivity(context, size),
-              SizedBox(height: size.height * 0.03),
-            ],
-          ),
-        ),
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              horizontal: size.width * 0.05,
+              vertical: size.height * 0.02,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildProfileHeader(context, size),
+                SizedBox(height: size.height * 0.03),
+                _buildQuickStatsList(context, size),
+                SizedBox(height: size.height * 0.03),
+                _buildAttendanceActionCard(context, size),
+                SizedBox(height: size.height * 0.03),
+                _buildServicesGrid(context, size),
+                SizedBox(height: size.height * 0.03),
+                _buildRecentActivity(context, size),
+                SizedBox(height: size.height * 0.03),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
 
   Widget _buildProfileHeader(BuildContext context, Size size) {
-    return Obx(
-      () => ProfileHeader(
-        userName: controller.userName.value,
-        role: controller.role.value,
-        department: controller.department.value,
+    return GestureDetector(
+      onTap: controller.openProfile,
+      child: Obx(
+        () => ProfileHeader(
+          userName: controller.userName.value,
+          role: controller.role.value,
+          department: controller.department.value,
+        ),
       ),
     );
   }
@@ -88,18 +96,27 @@ class DashboardView extends GetView<DashboardController> {
       child: Row(
         children: [
           Obx(
-            () => StatCard(
-              title: 'Leaves Left',
-              value: '${controller.remainingLeaveDays.value}',
+            () => GestureDetector(
+              onTap: controller.openLeaveManagement,
+              child: StatCard(
+                title: 'Leaves Left',
+                value: '${controller.remainingLeaveDays.value}',
+              ),
             ),
           ),
           Obx(
-            () => StatCard(
-              title: 'Attendance',
-              value: '${controller.monthlyAttendancePercent.value}%',
+            () => GestureDetector(
+              onTap: controller.openAttendance,
+              child: StatCard(
+                title: 'Attendance',
+                value: '${controller.monthlyAttendancePercent.value}%',
+              ),
             ),
           ),
-          const StatCard(title: 'Next Pay', value: '10 Days'),
+          StatCard(
+            title: 'Next Pay',
+            value: '${controller.nextPayDate.value.difference(DateTime.now()).inDays} Days',
+          ),
         ],
       ),
     );

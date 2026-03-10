@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import '../services/employee_service.dart';
-import '../models/employee_model.dart';
+import '../routes/app_routes.dart';
 
 class DashboardController extends GetxController {
   final EmployeeService _employeeService = EmployeeService();
@@ -104,10 +104,11 @@ class DashboardController extends GetxController {
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
-  void openLeaveManagement() =>
-      Get.snackbar('Leaves', 'Navigating to Leave Management...');
+  void openLeaveManagement() => Get.toNamed(Routes.leaveRequests);
   void openPayroll() => Get.snackbar('Payroll', 'Downloading Payslip...');
   void openNotifications() =>
       Get.snackbar('Notifications', 'Opening Notifications...');
   void openDirectory() => Get.snackbar('Directory', 'Browsing Colleagues...');
+  void openAttendance() => Get.toNamed(Routes.attendance);
+  void openProfile() => Get.toNamed(Routes.profile);
 }
