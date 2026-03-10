@@ -16,21 +16,28 @@ class StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Card(
-      margin: EdgeInsets.only(right: size.width * 0.03),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: size.height * 0.015,
-          horizontal: size.width * 0.04,
-        ),
+      margin: EdgeInsets.only(right: size.width * 0.04),
+      child: Container(
+        width: size.width * 0.35,
+        padding: EdgeInsets.all(size.width * 0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: AppTypography.caption(context)),
-            SizedBox(height: size.height * 0.005),
+            Text(
+              title,
+              style: AppTypography.caption(context).copyWith(
+                color: AppColors.lightTextSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
             Text(
               value,
-              style: AppTypography.subtitle(context)
-                  .copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
+              style: AppTypography.title(context).copyWith(
+                fontSize: 22,
+                color: AppColors.primary,
+                letterSpacing: -0.5,
+              ),
             ),
           ],
         ),

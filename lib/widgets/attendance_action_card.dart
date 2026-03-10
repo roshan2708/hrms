@@ -18,52 +18,69 @@ class AttendanceActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.all(size.width * 0.05),
+      padding: EdgeInsets.all(size.width * 0.06),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          colors: isCheckedIn
-              ? [Colors.teal.shade400, Colors.teal.shade700]
-              : [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: isCheckedIn ? AppColors.accent : AppColors.primary,
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            isCheckedIn ? 'Currently Clocked In' : 'Ready to Start?',
-            style: AppTypography.title(context).copyWith(color: Colors.white),
-          ),
-          SizedBox(height: size.height * 0.01),
-          Text(
-            isCheckedIn
-                ? 'Hours Worked Today: $formattedWorkedTime'
-                : 'Clock in to begin tracking time',
-            style: AppTypography.body(context).copyWith(color: Colors.white70),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isCheckedIn ? 'Status: Active' : 'Status: Inactive',
+                    style: AppTypography.caption(context)
+                        .copyWith(color: Colors.white70, letterSpacing: 1.2),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    isCheckedIn ? formattedWorkedTime : '--:--:--',
+                    style: AppTypography.heading(context).copyWith(
+                      color: Colors.white,
+                      fontSize: 32,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  isCheckedIn ? Icons.timer : Icons.timer_outlined,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: size.height * 0.03),
-          ElevatedButton(
-            onPressed: onToggleCheckIn,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isCheckedIn ? Colors.red.shade400 : Colors.white,
-              foregroundColor: isCheckedIn ? Colors.white : AppColors.primary,
-              padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.1,
-                vertical: size.height * 0.015,
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: onToggleCheckIn,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: isCheckedIn ? AppColors.error : AppColors.primary,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-            child: Text(
-              isCheckedIn ? 'CLOCK OUT' : 'CLOCK IN',
-              style: AppTypography.button(context).copyWith(
-                color: isCheckedIn ? Colors.white : AppColors.primary,
+              child: Text(
+                isCheckedIn ? 'CLOCK OUT' : 'CLOCK IN',
+                style: AppTypography.button(context).copyWith(
+                  color: isCheckedIn ? AppColors.error : AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

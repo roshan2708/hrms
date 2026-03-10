@@ -19,27 +19,55 @@ class ProfileHeader extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Row(
       children: [
-        CircleAvatar(
-          radius: size.width * 0.08,
-          backgroundColor: AppColors.primary.withValues(alpha: 0.2),
-          child: Icon(
-            Icons.person,
-            size: size.width * 0.1,
-            color: AppColors.primary,
+        Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.accent, width: 2),
+          ),
+          child: CircleAvatar(
+            radius: size.width * 0.07,
+            backgroundColor: AppColors.lightBackground,
+            child: Icon(
+              Icons.person_rounded,
+              size: size.width * 0.09,
+              color: AppColors.primary,
+            ),
           ),
         ),
-        SizedBox(width: size.width * 0.04),
+        SizedBox(width: size.width * 0.05),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 userName,
-                style: AppTypography.title(context),
+                style: AppTypography.title(context).copyWith(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
               ),
-              Text(
-                '$role | $department',
-                style: AppTypography.body(context),
+              const SizedBox(height: 2),
+              Row(
+                children: [
+                  Text(
+                    role,
+                    style: AppTypography.caption(context).copyWith(
+                      color: AppColors.accent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(width: 1, height: 12, color: AppColors.lightBorder),
+                  const SizedBox(width: 8),
+                  Text(
+                    department,
+                    style: AppTypography.caption(context).copyWith(
+                      color: AppColors.lightTextSecondary,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
