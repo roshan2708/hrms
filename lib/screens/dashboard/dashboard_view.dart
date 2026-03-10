@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../core/theme/theme_controller.dart';
-import '../controllers/dashboard_controller.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
+import '../../core/theme/theme_controller.dart';
+import '../../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});

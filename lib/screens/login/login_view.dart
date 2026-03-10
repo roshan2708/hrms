@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_typography.dart';
-import '../controllers/login_controller.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
+import '../../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
