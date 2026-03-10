@@ -1,15 +1,20 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import '../services/employee_service.dart';
+import '../models/employee_model.dart';
 
 class DashboardController extends GetxController {
+  final EmployeeService _employeeService = EmployeeService();
+  
   final isCheckedIn = false.obs;
   final checkInTime = Rxn<DateTime>();
   final workedSeconds = 0.obs;
   Timer? _workedTimer;
 
-  final userName = 'Roshan Singh'.obs;
-  final role = 'Flutter Developer'.obs;
-  final department = 'Engineering'.obs;
+  final isLoading = true.obs;
+  final userName = ''.obs;
+  final role = ''.obs;
+  final department = ''.obs;
   final profileImageUrl = ''.obs;
 
   final pendingLeaves = 2.obs;
@@ -24,11 +29,26 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchEmployeeData();
     recentActivities.addAll([
       "Yesterday: Clocked out at 06:15 PM",
       "Tuesday: Leave request approved by Manager",
       "Monday: Clocked in at 08:45 AM",
     ]);
+  }
+
+  Future<void> fetchEmployeeData() async {
+    try {
+      isLoading.value = true;
+      final employee = await _employeeService.getEmployee();
+      userName.value = employee.name;
+      role.value = employee.role;
+      department.value = employee.department;
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch employee data');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override
