@@ -14,17 +14,8 @@ class RecentActivityList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Recent Activity',
-          style: AppTypography.subtitle(context)
-              .copyWith(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: size.height * 0.01),
-        Obx(
-          () => ListView.builder(
+    return Obx(
+      () => ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: activities.length,
@@ -42,9 +33,7 @@ class RecentActivityList extends StatelessWidget {
                 ),
               );
             },
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

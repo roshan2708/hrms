@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../services/api_service.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -38,19 +39,25 @@ class LoginController extends GetxController {
   void login() async {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      await Future.delayed(const Duration(seconds: 2));
-
+      await Future.delayed(const Duration(seconds: 1));
       isLoading.value = false;
 
-      if (emailController.text == 'admin@hrms.com' &&
-          passwordController.text == 'password') {
-        Get.offNamed('/dashboard');
+      final email = emailController.text.toLowerCase();
+      
+      if (passwordController.text == 'password') {
+        if (email == 'superadmin@hrms.com' ||
+            email == 'admin@hrms.com' ||
+            email == 'hr@hrms.com' ||
+            email == 'manager@hrms.com' ||
+            email == 'employee@hrms.com') {
+          // Success! In a real app we'd get the role from the API response
+          ApiService.currentUserEmail = email;
+          Get.offNamed('/dashboard');
+        } else {
+          Get.snackbar('Error', 'Invalid credentials', snackPosition: SnackPosition.BOTTOM);
+        }
       } else {
-        Get.snackbar(
-          'Error',
-          'Invalid credentials',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        Get.snackbar('Error', 'Invalid password', snackPosition: SnackPosition.BOTTOM);
       }
     }
   }

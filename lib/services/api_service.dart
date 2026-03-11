@@ -3,6 +3,9 @@ import 'dart:async';
 class ApiService {
   // Base URL simulation
   final String baseUrl = "https://api.hrms.com/v1";
+  
+  // Simulated session
+  static String currentUserEmail = "employee@hrms.com";
 
   // Generic GET method
   Future<dynamic> get(String endpoint) async {
@@ -26,13 +29,47 @@ class ApiService {
   // Dummy data generator for various endpoints
   dynamic _getDummyData(String endpoint) {
     if (endpoint.contains("/employee")) {
-      return {
-        "id": "EMP001",
-        "name": "Roshan Singh",
-        "email": "roshan@example.com",
-        "department": "Engineering",
-        "role": "Flutter Developer"
-      };
+      if (currentUserEmail == "superadmin@hrms.com") {
+        return {
+          "id": "EMP000",
+          "name": "Super Admin",
+          "email": currentUserEmail,
+          "department": "Management",
+          "role": "Super Admin"
+        };
+      } else if (currentUserEmail == "admin@hrms.com") {
+        return {
+          "id": "EMP001",
+          "name": "Admin User",
+          "email": currentUserEmail,
+          "department": "IT",
+          "role": "Admin"
+        };
+      } else if (currentUserEmail == "hr@hrms.com") {
+        return {
+          "id": "EMP002",
+          "name": "HR Specialist",
+          "email": currentUserEmail,
+          "department": "Human Resources",
+          "role": "HR"
+        };
+      } else if (currentUserEmail == "manager@hrms.com") {
+        return {
+          "id": "EMP003",
+          "name": "Team Manager",
+          "email": currentUserEmail,
+          "department": "Engineering",
+          "role": "Manager"
+        };
+      } else {
+        return {
+          "id": "EMP004",
+          "name": "John Employee",
+          "email": currentUserEmail,
+          "department": "Engineering",
+          "role": "Employee"
+        };
+      }
     } else if (endpoint.contains("/attendance")) {
       final now = DateTime.now();
       return [

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_typography.dart';
 import '../../core/theme/theme_controller.dart';
+import '../../core/constants/enums.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../../widgets/profile_header.dart';
-import '../../widgets/stat_card.dart';
-import '../../widgets/attendance_action_card.dart';
-import '../../widgets/service_card.dart';
-import '../../widgets/recent_activity_list.dart';
+import '../../widgets/role_dashboards/super_admin_dashboard.dart';
+import '../../widgets/role_dashboards/admin_dashboard.dart';
+import '../../widgets/role_dashboards/hr_dashboard.dart';
+import '../../widgets/role_dashboards/manager_dashboard.dart';
+import '../../widgets/role_dashboards/employee_dashboard.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
@@ -63,13 +63,7 @@ class DashboardView extends GetView<DashboardController> {
               children: [
                 _buildProfileHeader(context, size),
                 SizedBox(height: size.height * 0.03),
-                _buildQuickStatsList(context, size),
-                SizedBox(height: size.height * 0.03),
-                _buildAttendanceActionCard(context, size),
-                SizedBox(height: size.height * 0.03),
-                _buildServicesGrid(context, size),
-                SizedBox(height: size.height * 0.03),
-                _buildRecentActivity(context, size),
+                _buildRoleBasedDashboard(),
                 SizedBox(height: size.height * 0.03),
               ],
             ),
@@ -92,116 +86,18 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildQuickStatsList(BuildContext context, Size size) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: controller.openLeaveManagement,
-            child: StatCard(
-              title: 'Leaves Left',
-              value: '${controller.remainingLeaveDays.value}',
-            ),
-          ),
-          GestureDetector(
-            onTap: controller.openAttendance,
-            child: StatCard(
-              title: 'Attendance',
-              value: '${controller.monthlyAttendancePercent.value}%',
-            ),
-          ),
-          StatCard(
-            title: 'Next Pay',
-            value: '${controller.nextPayDate.value.difference(DateTime.now()).inDays} Days',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAttendanceActionCard(BuildContext context, Size size) {
-    return AttendanceActionCard(
-      isCheckedIn: controller.isCheckedIn.value,
-      formattedWorkedTime: controller.formattedWorkedTime,
-      onToggleCheckIn: controller.toggleCheckIn,
-    );
-  }
-
-  Widget _buildServicesGrid(BuildContext context, Size size) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Quick Services',
-              style: AppTypography.subtitle(context).copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('See All'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: 1.3,
-          children: [
-            ServiceCard(
-              title: 'Leave',
-              icon: Icons.calendar_month_rounded,
-              onTap: controller.openLeaveManagement,
-              badgeStat: controller.pendingLeaves.value > 0
-                  ? '${controller.pendingLeaves.value}'
-                  : null,
-            ),
-            ServiceCard(
-              title: 'Attendance',
-              icon: Icons.fact_check_rounded,
-              onTap: controller.openAttendance,
-            ),
-            ServiceCard(
-              title: 'Payroll',
-              icon: Icons.account_balance_wallet_rounded,
-              onTap: controller.openPayroll,
-            ),
-            ServiceCard(
-              title: 'Colleagues',
-              icon: Icons.diversity_3_rounded,
-              onTap: controller.openDirectory,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRecentActivity(BuildContext context, Size size) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Recent Activity',
-          style: AppTypography.subtitle(context).copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
-          ),
-        ),
-        const SizedBox(height: 16),
-        RecentActivityList(
-          activities: controller.recentActivities,
-        ),
-      ],
-    );
+  Widget _buildRoleBasedDashboard() {
+    switch (controller.userRole.value) {
+      case UserRole.superAdmin:
+        return const SuperAdminDashboard();
+      case UserRole.admin:
+        return const AdminDashboard();
+      case UserRole.hr:
+        return const HRDashboard();
+      case UserRole.manager:
+        return const ManagerDashboard();
+      case UserRole.employee:
+        return const EmployeeDashboard();
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import '../services/employee_service.dart';
 import '../routes/app_routes.dart';
+import '../core/constants/enums.dart';
 
 class DashboardController extends GetxController {
   final EmployeeService _employeeService = EmployeeService();
@@ -16,6 +17,7 @@ class DashboardController extends GetxController {
   final role = ''.obs;
   final department = ''.obs;
   final profileImageUrl = ''.obs;
+  final userRole = UserRole.employee.obs;
 
   final pendingLeaves = 2.obs;
   final unreadNotifications = 5.obs;
@@ -44,6 +46,24 @@ class DashboardController extends GetxController {
       userName.value = employee.name;
       role.value = employee.role;
       department.value = employee.department;
+      
+      // Map string role to UserRole enum
+      switch (employee.role.toLowerCase()) {
+        case 'super admin':
+          userRole.value = UserRole.superAdmin;
+          break;
+        case 'admin':
+          userRole.value = UserRole.admin;
+          break;
+        case 'hr':
+          userRole.value = UserRole.hr;
+          break;
+        case 'manager':
+          userRole.value = UserRole.manager;
+          break;
+        default:
+          userRole.value = UserRole.employee;
+      }
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch employee data');
     } finally {
