@@ -57,6 +57,18 @@ class HRDashboard extends GetView<DashboardController> {
                   subtitle: 'Optional',
                   onTap: () {},
                 ),
+                ActionTile(
+                  icon: Icons.groups_rounded,
+                  title: 'Employee Directory',
+                  subtitle: 'Quick access to staff info',
+                  onTap: controller.openDirectory,
+                ),
+                ActionTile(
+                  icon: Icons.bar_chart_rounded,
+                  title: 'HR Analytics',
+                  subtitle: 'View attendance & leave stats',
+                  onTap: controller.openAnalytics,
+                ),
               ],
             ),
           ),

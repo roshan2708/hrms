@@ -58,6 +58,44 @@ class SuperAdminDashboard extends GetView<DashboardController> {
             ),
           ),
         ),
+        const SizedBox(height: 24),
+        DashboardSection(
+          title: 'System Access',
+          child: Column(
+            children: [
+              ActionTile(
+                icon: Icons.bar_chart_rounded,
+                title: 'Analytics & Reports',
+                subtitle: 'View company-wide metrics',
+                onTap: controller.openAnalytics,
+              ),
+              ActionTile(
+                icon: Icons.business_rounded,
+                title: 'Manage Departments',
+                subtitle: 'Add or modify departments',
+                onTap: controller.openDepartments,
+              ),
+              ActionTile(
+                icon: Icons.campaign_rounded,
+                title: 'Announcements',
+                subtitle: 'Post or view broadcasts',
+                onTap: controller.openAnnouncements,
+              ),
+              ActionTile(
+                icon: Icons.groups_rounded,
+                title: 'Employee Directory',
+                subtitle: 'Browse all company staff',
+                onTap: controller.openDirectory,
+              ),
+              ActionTile(
+                icon: Icons.settings_rounded,
+                title: 'System Settings',
+                subtitle: 'Configure application preferences',
+                onTap: controller.openSettings,
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

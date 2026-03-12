@@ -49,7 +49,56 @@ class ManagerDashboard extends GetView<DashboardController> {
             ),
           ),
         ),
+        const SizedBox(height: 24),
+        DashboardSection(
+          title: 'Manager Services',
+          child: GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: 1.5,
+            children: [
+              _buildServiceCardCard(context, 'Directory', Icons.groups_rounded, controller.openDirectory),
+              _buildServiceCardCard(context, 'Analytics', Icons.bar_chart_rounded, controller.openAnalytics),
+              _buildServiceCardCard(context, 'Departments', Icons.business_rounded, controller.openDepartments),
+              _buildServiceCardCard(context, 'Announcements', Icons.campaign_rounded, controller.openAnnouncements),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+
+  Widget _buildServiceCardCard(BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(16),
+          border: isDark ? Border.all(color: AppColors.darkBorder) : null,
+          boxShadow: isDark ? [] : [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColors.primary, size: 28),
+            const SizedBox(height: 8),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
     );
   }
 

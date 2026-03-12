@@ -126,9 +126,14 @@ class DashboardController extends GetxController {
 
   void openLeaveManagement() => Get.toNamed(Routes.leaveRequests);
   void openPayroll() => Get.snackbar('Payroll', 'Downloading Payslip...');
-  void openNotifications() =>
-      Get.snackbar('Notifications', 'Opening Notifications...');
-  void openDirectory() => Get.snackbar('Directory', 'Browsing Colleagues...');
+  void openNotifications() => Get.toNamed(Routes.notifications);
+  void openDirectory() => Get.toNamed(Routes.employeeDirectory);
   void openAttendance() => Get.toNamed(Routes.attendance);
-  void openProfile() => Get.toNamed(Routes.profile);
+  void openProfile() => Get.toNamed(Routes.settings); // Use settings view for profile actions
+  
+  // New navigation actions
+  void openSettings() => Get.toNamed(Routes.settings);
+  void openAnnouncements() => Get.toNamed(Routes.announcements);
+  void openAnalytics() => Get.toNamed(Routes.analytics);
+  void openDepartments() => Get.toNamed(Routes.departmentManage);
 }

@@ -44,6 +44,34 @@ class AdminDashboard extends GetView<DashboardController> {
             ],
           ),
         ),
+        const SizedBox(height: 24),
+        DashboardSection(
+          title: 'Admin Actions',
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.business_rounded, color: Colors.blue),
+                title: const Text('Manage Departments'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: controller.openDepartments,
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.groups_rounded, color: Colors.orange),
+                title: const Text('Employee Directory'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: controller.openDirectory,
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.settings_rounded, color: Colors.grey),
+                title: const Text('System Settings'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: controller.openSettings,
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
