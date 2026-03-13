@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../models/announcement_model.dart';
+import '../data/dummy_data.dart';
 
 class AnnouncementController extends GetxController {
   final isLoading = false.obs;
@@ -14,7 +15,7 @@ class AnnouncementController extends GetxController {
   void loadAnnouncements() async {
     isLoading.value = true;
     await Future.delayed(const Duration(milliseconds: 600));
-    announcements.assignAll(Announcement.dummyAnnouncements);
+    announcements.assignAll(DummyData.announcements);
     isLoading.value = false;
   }
 }

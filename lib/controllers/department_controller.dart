@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../models/department_model.dart';
+import '../data/dummy_data.dart';
 
 class DepartmentController extends GetxController {
   final isLoading = false.obs;
@@ -14,7 +15,7 @@ class DepartmentController extends GetxController {
   void loadDepartments() async {
     isLoading.value = true;
     await Future.delayed(const Duration(milliseconds: 600));
-    departments.assignAll(Department.dummyDepartments);
+    departments.assignAll(DummyData.departments);
     isLoading.value = false;
   }
 }

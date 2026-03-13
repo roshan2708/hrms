@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/theme/theme_controller.dart';
 import 'dashboard_controller.dart';
 
 class SettingsController extends GetxController {
   final isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
   
   // Dummy settings state
   final isEmailNotificationEnabled = true.obs;

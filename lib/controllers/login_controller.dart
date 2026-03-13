@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/api_service.dart';
+import '../core/utils/validators.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -17,23 +18,11 @@ class LoginController extends GetxController {
   }
 
   String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email';
-    }
-    if (!GetUtils.isEmail(value)) {
-      return 'Please enter a valid email';
-    }
-    return null;
+    return Validators.validateEmail(value);
   }
 
   String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
+    return Validators.validatePassword(value);
   }
 
   void login() async {

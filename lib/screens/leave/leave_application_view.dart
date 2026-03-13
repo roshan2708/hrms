@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/leave_controller.dart';
 import '../../models/leave_model.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/validators.dart';
 import 'package:intl/intl.dart';
 
 class LeaveApplicationView extends StatefulWidget {
@@ -180,7 +181,7 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
           decoration: const InputDecoration(
             hintText: 'Describe your reason...',
           ),
-          validator: (val) => val == null || val.isEmpty ? 'Reason is required' : null,
+          validator: (val) => Validators.validateRequired(val, 'Reason'),
         ),
       ],
     );

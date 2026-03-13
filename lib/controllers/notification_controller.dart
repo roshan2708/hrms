@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/notification_model.dart';
 import 'dashboard_controller.dart';
+import '../data/dummy_data.dart';
 
 class NotificationController extends GetxController {
   final isLoading = false.obs;
@@ -16,7 +17,7 @@ class NotificationController extends GetxController {
   void loadNotifications() async {
     isLoading.value = true;
     await Future.delayed(const Duration(milliseconds: 500));
-    notifications.assignAll(AppNotification.dummyNotifications);
+    notifications.assignAll(DummyData.notifications);
     isLoading.value = false;
   }
 

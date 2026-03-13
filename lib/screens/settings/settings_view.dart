@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/settings_controller.dart';
 import '../../core/theme/app_colors.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../core/utils/validators.dart';
 
 class SettingsView extends GetView<SettingsController> {
   SettingsView({super.key});
@@ -37,7 +39,9 @@ class SettingsView extends GetView<SettingsController> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  controller.saveProfileChanges(_nameController.text, _phoneController.text);
+                  if (controller.formKey.currentState!.validate()) {
+                    controller.saveProfileChanges(_nameController.text, _phoneController.text);
+                  }
                 },
                 child: const Text('SAVE CHANGES'),
               ),
@@ -68,25 +72,26 @@ class SettingsView extends GetView<SettingsController> {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              CustomTextField(
+                controller: _nameController,
                 labelText: 'Full Name',
-                prefixIcon: Icon(Icons.person_outline),
+                prefixIcon: const Icon(Icons.person_outline),
+                validator: (val) => Validators.validateRequired(val, 'Full Name'),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
                 labelText: 'Phone Number',
-                prefixIcon: Icon(Icons.phone_outlined),
+                prefixIcon: const Icon(Icons.phone_outlined),
+                validator: Validators.validatePhone,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import '../models/employee_model.dart';
+import '../data/dummy_data.dart';
 
 class DirectoryController extends GetxController {
   final isLoading = false.obs;
   
   // Total unfiltered list
-  final List<Employee> _allEmployees = Employee.dummyEmployees;
+  final List<Employee> _allEmployees = DummyData.employees;
   
   // Observable list for the UI
   final employees = <Employee>[].obs;
