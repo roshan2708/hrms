@@ -34,7 +34,7 @@ class DepartmentView extends GetView<DepartmentController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.business_rounded, size: 64, color: secondaryColor.withOpacity(0.3)),
+                Icon(Icons.business_rounded, size: 64, color: secondaryColor.withValues(alpha: 0.3)),
                 const SizedBox(height: 16),
                 Text('No departments found', style: TextStyle(color: secondaryColor)),
               ],
@@ -83,7 +83,7 @@ class DepartmentView extends GetView<DepartmentController> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(

@@ -50,7 +50,7 @@ class ProfileView extends GetView<DashboardController> {
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: accentColor.withOpacity(0.5), width: 2),
+            border: Border.all(color: accentColor.withValues(alpha: 0.5), width: 2),
           ),
           child: const CircleAvatar(
             radius: 54,
@@ -79,7 +79,7 @@ class ProfileView extends GetView<DashboardController> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           decoration: BoxDecoration(
-            color: accentColor.withOpacity(0.1),
+            color: accentColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(

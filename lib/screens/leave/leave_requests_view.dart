@@ -34,7 +34,7 @@ class LeaveRequestsView extends GetView<LeaveController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.beach_access_rounded, size: 64, color: secondaryColor.withOpacity(0.2)),
+                Icon(Icons.beach_access_rounded, size: 64, color: secondaryColor.withValues(alpha: 0.2)),
                 const SizedBox(height: 16),
                 Text('No leave requests found', style: TextStyle(color: secondaryColor)),
               ],
@@ -98,7 +98,7 @@ class LeaveRequestsView extends GetView<LeaveController> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: accentColor.withOpacity(0.1),
+                    color: accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(

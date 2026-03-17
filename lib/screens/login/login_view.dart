@@ -72,6 +72,17 @@ class LoginView extends GetView<LoginController> {
                       isLoading: controller.isLoading.value,
                     ),
                   ),
+                  SizedBox(height: size.height * 0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account? "),
+                      TextButton(
+                        onPressed: () => Get.toNamed('/signup'),
+                        child: const Text('Signup'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

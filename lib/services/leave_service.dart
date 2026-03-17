@@ -1,16 +1,12 @@
-import '../models/leave_model.dart';
-import 'api_service.dart';
+import 'package:http/http.dart' as http;
+import '../core/api/api_client.dart';
 
 class LeaveService {
-  final ApiService _apiService = ApiService();
-
-  Future<List<LeaveRequest>> getLeaveRequests() async {
-    final List<dynamic> response = await _apiService.get("/leaves");
-    return response.map((json) => LeaveRequest.fromJson(json)).toList();
+  static Future<http.Response> getLeaveRequests() async {
+    return await ApiClient.get('/leaves');
   }
 
-  Future<bool> applyLeave(LeaveRequest request) async {
-    final response = await _apiService.post("/leave", request.toJson());
-    return response['status'] == 'success';
+  static Future<http.Response> applyLeave(Map<String, dynamic> leaveData) async {
+    return await ApiClient.post('/leave', leaveData);
   }
 }

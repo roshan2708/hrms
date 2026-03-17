@@ -47,7 +47,7 @@ class DirectoryView extends GetView<DirectoryController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.person_search_rounded, size: 64, color: secondaryColor.withOpacity(0.3)),
+                Icon(Icons.person_search_rounded, size: 64, color: secondaryColor.withValues(alpha: 0.3)),
                 const SizedBox(height: 16),
                 Text('No employees found', style: TextStyle(color: secondaryColor)),
               ],
@@ -81,7 +81,7 @@ class DirectoryView extends GetView<DirectoryController> {
         contentPadding: const EdgeInsets.all(12),
         leading: CircleAvatar(
           radius: 24,
-          backgroundColor: AppColors.primary.withOpacity(0.1),
+          backgroundColor: AppColors.primary.withValues(alpha: 0.1),
           child: Text(
             employee.name.substring(0, 1),
             style: const TextStyle(

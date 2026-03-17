@@ -4,6 +4,7 @@ import '../../controllers/dashboard_controller.dart';
 import '../stat_card.dart';
 import '../dashboard_section.dart';
 import '../../../core/theme/app_colors.dart';
+import '../action_tile.dart';
 
 class ManagerDashboard extends GetView<DashboardController> {
   const ManagerDashboard({super.key});
@@ -52,18 +53,50 @@ class ManagerDashboard extends GetView<DashboardController> {
         const SizedBox(height: 24),
         DashboardSection(
           title: 'Manager Services',
-          child: GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 1.5,
+          child: Column(
             children: [
-              _buildServiceCardCard(context, 'Directory', Icons.groups_rounded, controller.openDirectory),
-              _buildServiceCardCard(context, 'Analytics', Icons.bar_chart_rounded, controller.openAnalytics),
-              _buildServiceCardCard(context, 'Departments', Icons.business_rounded, controller.openDepartments),
-              _buildServiceCardCard(context, 'Announcements', Icons.campaign_rounded, controller.openAnnouncements),
+              ActionTile(
+                icon: Icons.person_outline_rounded,
+                title: 'My Details',
+                subtitle: 'View and update your profile',
+                onTap: controller.openProfile,
+              ),
+              ActionTile(
+                icon: Icons.calendar_today_rounded,
+                title: 'My Attendance',
+                subtitle: 'Track your work logs',
+                onTap: controller.openAttendance,
+              ),
+              ActionTile(
+                icon: Icons.people_alt_rounded,
+                title: 'Team Attendance',
+                subtitle: 'Monitor direct reports',
+                onTap: controller.openAttendance,
+              ),
+              ActionTile(
+                icon: Icons.assignment_rounded,
+                title: 'Team Tasks',
+                subtitle: 'Manage and assign work',
+                onTap: controller.openTasks,
+              ),
+              ActionTile(
+                icon: Icons.inventory_2_rounded,
+                title: 'Asset Allocation',
+                subtitle: 'Request or assign equipment',
+                onTap: controller.openAssets,
+              ),
+              ActionTile(
+                icon: Icons.airplane_ticket_rounded,
+                title: 'Travel Expenses',
+                subtitle: 'Submit or approve travel claims',
+                onTap: controller.openExpenses,
+              ),
+              ActionTile(
+                icon: Icons.event_note_rounded,
+                title: 'Leaves',
+                subtitle: 'Team time-off management',
+                onTap: controller.openLeaveManagement,
+              ),
             ],
           ),
         ),
@@ -84,7 +117,7 @@ class ManagerDashboard extends GetView<DashboardController> {
           border: isDark ? Border.all(color: AppColors.darkBorder) : null,
           boxShadow: isDark ? [] : [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -111,7 +144,7 @@ class ManagerDashboard extends GetView<DashboardController> {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 child: Text(name[0], style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
               Positioned(

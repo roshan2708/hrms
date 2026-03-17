@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../services/api_service.dart';
+import '../services/auth_service.dart';
 import '../core/utils/validators.dart';
 
 class LoginController extends GetxController {
@@ -28,25 +28,34 @@ class LoginController extends GetxController {
   void login() async {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      await Future.delayed(const Duration(seconds: 1));
-      isLoading.value = false;
+      try {
+        final response = await AuthService.login(
+          emailController.text.trim(),
+          passwordController.text,
+        );
 
-      final email = emailController.text.toLowerCase();
-      
-      if (passwordController.text == 'password') {
-        if (email == 'superadmin@hrms.com' ||
-            email == 'admin@hrms.com' ||
-            email == 'hr@hrms.com' ||
-            email == 'manager@hrms.com' ||
-            email == 'employee@hrms.com') {
-          // Success! In a real app we'd get the role from the API response
-          ApiService.currentUserEmail = email;
-          Get.offNamed('/dashboard');
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          // Success! 
+          // Note: In a real app we would parse the token from the response
+          // and store it using something like GetStorage.
+          Get.offAllNamed('/dashboard');
         } else {
-          Get.snackbar('Error', 'Invalid credentials', snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar(
+            'Login Failed',
+            'Invalid credentials or server error',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red.withValues(alpha: 0.1),
+            colorText: Colors.red,
+          );
         }
-      } else {
-        Get.snackbar('Error', 'Invalid password', snackPosition: SnackPosition.BOTTOM);
+      } catch (e) {
+        Get.snackbar(
+          'Error',
+          'An unexpected error occurred',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } finally {
+        isLoading.value = false;
       }
     }
   }

@@ -141,7 +141,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     child: LinearProgressIndicator(
                       value: percentage,
                       minHeight: 8,
-                      backgroundColor: AppColors.primary.withOpacity(0.1),
+                      backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                       color: AppColors.primary,
                     ),
                   ),

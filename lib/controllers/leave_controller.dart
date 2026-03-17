@@ -1,10 +1,9 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import '../models/leave_model.dart';
 import '../services/leave_service.dart';
 
 class LeaveController extends GetxController {
-  final LeaveService _leaveService = LeaveService();
-  
   final leaveRequests = <LeaveRequest>[].obs;
   final isLoading = false.obs;
 
@@ -17,10 +16,18 @@ class LeaveController extends GetxController {
   Future<void> fetchLeaveRequests() async {
     try {
       isLoading.value = true;
-      final list = await _leaveService.getLeaveRequests();
-      leaveRequests.assignAll(list);
+      final response = await LeaveService.getLeaveRequests();
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final List<dynamic> data = jsonDecode(response.body);
+        leaveRequests.assignAll(
+          data.map((json) => LeaveRequest.fromJson(json)).toList(),
+        );
+      } else {
+        Get.snackbar('Error', 'Failed to fetch leave requests: ${response.statusCode}');
+      }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch leave requests');
+      Get.snackbar('Error', 'An unexpected error occurred while fetching leave requests');
     } finally {
       isLoading.value = false;
     }
@@ -29,12 +36,13 @@ class LeaveController extends GetxController {
   Future<void> applyLeave(LeaveRequest request) async {
     try {
       isLoading.value = true;
-      final success = await _leaveService.applyLeave(request);
-      if (success) {
+      final response = await LeaveService.applyLeave(request.toJson());
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         Get.snackbar('Success', 'Leave application submitted successfully');
         await fetchLeaveRequests();
       } else {
-        Get.snackbar('Error', 'Failed to submit leave application');
+        Get.snackbar('Error', 'Failed to submit leave application: ${response.statusCode}');
       }
     } catch (e) {
       Get.snackbar('Error', 'An error occurred while applying for leave');

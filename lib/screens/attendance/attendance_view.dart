@@ -27,7 +27,7 @@ class AttendanceView extends GetView<AttendanceController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.calendar_today_outlined, size: 64, color: secondaryColor.withOpacity(0.3)),
+                Icon(Icons.calendar_today_outlined, size: 64, color: secondaryColor.withValues(alpha: 0.3)),
                 const SizedBox(height: 16),
                 Text('No records found', style: TextStyle(color: secondaryColor)),
               ],
@@ -77,7 +77,7 @@ class AttendanceView extends GetView<AttendanceController> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: Colors.white, size: 18),
@@ -107,7 +107,7 @@ class AttendanceView extends GetView<AttendanceController> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.1),
+                color: statusColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
@@ -146,7 +146,7 @@ class AttendanceView extends GetView<AttendanceController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.1),
+                color: statusColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

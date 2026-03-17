@@ -35,42 +35,58 @@ class HRDashboard extends GetView<DashboardController> {
         ),
         const SizedBox(height: 24),
         DashboardSection(
-          title: 'Pending Actions',
-          child: Card(
-            child: Column(
-              children: [
-                ActionTile(
-                  icon: Icons.person_add,
-                  title: 'Finish Onboarding: Alice Smith',
-                  subtitle: 'Due tomorrow',
-                  onTap: () {},
-                ),
-                ActionTile(
-                  icon: Icons.payments,
-                  title: 'Approve Payroll: Batch #45',
-                  subtitle: 'Due in 2 days',
-                  onTap: () {},
-                ),
-                ActionTile(
-                  icon: Icons.event_note,
-                  title: 'Review Leave Policy 2024',
-                  subtitle: 'Optional',
-                  onTap: () {},
-                ),
-                ActionTile(
-                  icon: Icons.groups_rounded,
-                  title: 'Employee Directory',
-                  subtitle: 'Quick access to staff info',
-                  onTap: controller.openDirectory,
-                ),
-                ActionTile(
-                  icon: Icons.bar_chart_rounded,
-                  title: 'HR Analytics',
-                  subtitle: 'View attendance & leave stats',
-                  onTap: controller.openAnalytics,
-                ),
-              ],
-            ),
+          title: 'Quick Access',
+          child: Column(
+            children: [
+              ActionTile(
+                icon: Icons.person_add_rounded,
+                title: 'Onboarding',
+                subtitle: 'Manage new hire workflows',
+                onTap: () {},
+              ),
+              ActionTile(
+                icon: Icons.event_note_rounded,
+                title: 'Leave Tracker',
+                subtitle: 'Monitor organization leaves',
+                onTap: controller.openLeaveManagement,
+              ),
+              ActionTile(
+                icon: Icons.calendar_month_rounded,
+                title: 'Attendance',
+                subtitle: 'Manage staff clock-in records',
+                onTap: controller.openAttendance,
+              ),
+              ActionTile(
+                icon: Icons.insights_rounded,
+                title: 'Performance',
+                subtitle: 'Employee appraisals and metrics',
+                onTap: controller.openAnalytics,
+              ),
+              ActionTile(
+                icon: Icons.assignment_rounded,
+                title: 'Tasks',
+                subtitle: 'Track operational goals',
+                onTap: controller.openTasks,
+              ),
+              ActionTile(
+                icon: Icons.description_rounded,
+                title: 'HR Letters',
+                subtitle: 'Generate employment documents',
+                onTap: () {},
+              ),
+              ActionTile(
+                icon: Icons.groups_rounded,
+                title: 'Employee Directory',
+                subtitle: 'Staff info and profiles',
+                onTap: controller.openDirectory,
+              ),
+              ActionTile(
+                icon: Icons.person_off_rounded,
+                title: 'Offboarding',
+                subtitle: 'Separation and exit management',
+                onTap: () {},
+              ),
+            ],
           ),
         ),
       ],

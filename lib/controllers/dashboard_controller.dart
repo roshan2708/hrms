@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:get/get.dart';
 import '../services/employee_service.dart';
+import '../models/employee_model.dart';
 import '../routes/app_routes.dart';
 import '../core/constants/enums.dart';
 
 class DashboardController extends GetxController {
-  final EmployeeService _employeeService = EmployeeService();
   
   final isCheckedIn = false.obs;
   final checkInTime = Rxn<DateTime>();
@@ -42,30 +43,41 @@ class DashboardController extends GetxController {
   Future<void> fetchEmployeeData() async {
     try {
       isLoading.value = true;
-      final employee = await _employeeService.getEmployee();
-      userName.value = employee.name;
-      role.value = employee.role;
-      department.value = employee.department;
+      // In a real app we'd get the current user's ID from storage
+      // For now, we'll just fetch all and take the first one as a demonstration
+      final response = await EmployeeService.getAllEmployees();
       
-      // Map string role to UserRole enum
-      switch (employee.role.toLowerCase()) {
-        case 'super admin':
-          userRole.value = UserRole.superAdmin;
-          break;
-        case 'admin':
-          userRole.value = UserRole.admin;
-          break;
-        case 'hr':
-          userRole.value = UserRole.hr;
-          break;
-        case 'manager':
-          userRole.value = UserRole.manager;
-          break;
-        default:
-          userRole.value = UserRole.employee;
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final List<dynamic> data = jsonDecode(response.body);
+        if (data.isNotEmpty) {
+          final employee = Employee.fromJson(data[0]);
+          userName.value = employee.name;
+          role.value = employee.role;
+          department.value = employee.department;
+          
+          // Map string role to UserRole enum
+          switch (employee.role.toLowerCase()) {
+            case 'super admin':
+              userRole.value = UserRole.superAdmin;
+              break;
+            case 'admin':
+              userRole.value = UserRole.admin;
+              break;
+            case 'hr':
+              userRole.value = UserRole.hr;
+              break;
+            case 'manager':
+              userRole.value = UserRole.manager;
+              break;
+            default:
+              userRole.value = UserRole.employee;
+          }
+        }
+      } else {
+        Get.snackbar('Error', 'Failed to fetch employee data: ${response.statusCode}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch employee data');
+      Get.snackbar('Error', 'An unexpected error occurred while fetching data');
     } finally {
       isLoading.value = false;
     }
@@ -136,4 +148,31 @@ class DashboardController extends GetxController {
   void openAnnouncements() => Get.toNamed(Routes.announcements);
   void openAnalytics() => Get.toNamed(Routes.analytics);
   void openDepartments() => Get.toNamed(Routes.departmentManage);
+  
+  void openCompanies() => Get.toNamed(Routes.companies);
+  void openBranches() => Get.toNamed(Routes.branches);
+  void openAssets() => Get.toNamed(Routes.assets);
+  void openSalary() => Get.toNamed(Routes.salary);
+  void openAuditLogs() => Get.toNamed(Routes.auditLogs);
+  void openTasks() => Get.toNamed(Routes.tasks);
+  void openExpenses() => Get.toNamed(Routes.expenses);
+  void openPaySlips() => Get.toNamed(Routes.paySlips);
+
+  void openWFHRequests() => Get.toNamed(Routes.wfhRequests);
+  void openSetupOrganization() => Get.toNamed(Routes.setupOrganization);
+  void openUserManagement() => Get.toNamed(Routes.users);
+  void openTraining() => Get.toNamed(Routes.training);
+  void openRecruitment() => Get.toNamed(Routes.recruitment);
+  void openPerformance() => Get.toNamed(Routes.performance);
+  void openOnboarding() => Get.toNamed(Routes.onboarding);
+  void openVisitorTracking() => Get.toNamed(Routes.visitorTracking);
+  void openDeskManagement() => Get.toNamed(Routes.deskManagement);
+  void openAutomationCenter() => Get.toNamed(Routes.automationCenter);
+  void openLoans() => Get.toNamed(Routes.loanManagement);
+  void openTravelExpenses() => Get.toNamed(Routes.travelExpenses);
+  void openCalendar() => Get.toNamed(Routes.calendar);
+  void openDailyTasks() => Get.toNamed(Routes.dailyTasks);
+  void openHelpdesk() => Get.toNamed(Routes.helpdesk);
+  void openKnowledgeBase() => Get.toNamed(Routes.knowledgeBase);
+  void openFeedback() => Get.toNamed(Routes.feedback);
 }

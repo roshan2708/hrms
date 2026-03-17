@@ -9,7 +9,6 @@ class ApiService {
 
   // Generic GET method
   Future<dynamic> get(String endpoint) async {
-    print("GET Request to: $baseUrl$endpoint");
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 800));
     
@@ -19,7 +18,6 @@ class ApiService {
 
   // Generic POST method
   Future<dynamic> post(String endpoint, Map<String, dynamic> data) async {
-    print("POST Request to: $baseUrl$endpoint with data: $data");
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 1000));
     

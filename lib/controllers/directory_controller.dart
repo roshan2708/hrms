@@ -1,12 +1,13 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import '../models/employee_model.dart';
-import '../data/dummy_data.dart';
+import '../services/employee_service.dart';
 
 class DirectoryController extends GetxController {
   final isLoading = false.obs;
   
   // Total unfiltered list
-  final List<Employee> _allEmployees = DummyData.employees;
+  final List<Employee> _allEmployees = <Employee>[];
   
   // Observable list for the UI
   final employees = <Employee>[].obs;
@@ -21,11 +22,25 @@ class DirectoryController extends GetxController {
   }
 
   void loadEmployees() async {
-    isLoading.value = true;
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 800));
-    employees.assignAll(_allEmployees);
-    isLoading.value = false;
+    try {
+      isLoading.value = true;
+      final response = await EmployeeService.getAllEmployees();
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final List<dynamic> data = jsonDecode(response.body);
+        _allEmployees.clear();
+        _allEmployees.addAll(
+          data.map((json) => Employee.fromJson(json)).toList(),
+        );
+        employees.assignAll(_allEmployees);
+      } else {
+        Get.snackbar('Error', 'Failed to load directory: ${response.statusCode}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An unexpected error occurred while loading directory');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void searchEmployees(String query) {

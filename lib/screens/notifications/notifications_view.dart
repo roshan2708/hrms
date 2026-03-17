@@ -37,7 +37,7 @@ class NotificationsView extends GetView<NotificationController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.notifications_off_outlined, size: 64, color: secondaryColor.withOpacity(0.3)),
+                Icon(Icons.notifications_off_outlined, size: 64, color: secondaryColor.withValues(alpha: 0.3)),
                 const SizedBox(height: 16),
                 Text('No notifications', style: TextStyle(color: secondaryColor)),
               ],
@@ -84,13 +84,13 @@ class NotificationsView extends GetView<NotificationController> {
     }
 
     return Container(
-      color: notification.isRead ? Colors.transparent : AppColors.primary.withOpacity(0.05),
+      color: notification.isRead ? Colors.transparent : AppColors.primary.withValues(alpha: 0.05),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         leading: Stack(
           children: [
             CircleAvatar(
-              backgroundColor: iconColor.withOpacity(0.15),
+              backgroundColor: iconColor.withValues(alpha: 0.15),
               child: Icon(icon, color: iconColor, size: 20),
             ),
             if (!notification.isRead)

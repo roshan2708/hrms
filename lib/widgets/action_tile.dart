@@ -22,7 +22,7 @@ class ActionTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: CircleAvatar(
-        backgroundColor: (iconColor ?? AppColors.primary).withOpacity(0.1),
+        backgroundColor: (iconColor ?? AppColors.primary).withValues(alpha: 0.1),
         child: Icon(icon, color: iconColor ?? AppColors.primary, size: 20),
       ),
       title: Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),

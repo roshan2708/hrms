@@ -96,9 +96,19 @@ class EmployeeDashboard extends GetView<DashboardController> {
           onTap: controller.openAttendance,
         ),
         ServiceCard(
-          title: 'Payroll',
-          icon: Icons.account_balance_wallet_rounded,
-          onTap: controller.openPayroll,
+          title: 'Pay Slips',
+          icon: Icons.description_rounded,
+          onTap: controller.openPaySlips,
+        ),
+        ServiceCard(
+          title: 'Expenses',
+          icon: Icons.payments_rounded,
+          onTap: controller.openExpenses,
+        ),
+        ServiceCard(
+          title: 'Tasks',
+          icon: Icons.list_alt_rounded,
+          onTap: controller.openTasks,
         ),
         ServiceCard(
           title: 'Colleagues',

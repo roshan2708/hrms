@@ -32,11 +32,11 @@ class EmployeeProfileView extends GetView<DirectoryController> {
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: accentColor.withOpacity(0.5), width: 2),
+                border: Border.all(color: accentColor.withValues(alpha: 0.5), width: 2),
               ),
               child: CircleAvatar(
                 radius: 54,
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 child: Text(
                   employee.name.substring(0, 1),
                   style: const TextStyle(
@@ -68,7 +68,7 @@ class EmployeeProfileView extends GetView<DirectoryController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.1),
+                color: accentColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -126,7 +126,7 @@ class EmployeeProfileView extends GetView<DirectoryController> {
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 28),

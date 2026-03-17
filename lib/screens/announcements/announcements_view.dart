@@ -27,7 +27,7 @@ class AnnouncementsView extends GetView<AnnouncementController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.campaign_outlined, size: 64, color: secondaryColor.withOpacity(0.3)),
+                Icon(Icons.campaign_outlined, size: 64, color: secondaryColor.withValues(alpha: 0.3)),
                 const SizedBox(height: 16),
                 Text('No announcements found', style: TextStyle(color: secondaryColor)),
               ],
@@ -71,7 +71,7 @@ class AnnouncementsView extends GetView<AnnouncementController> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: announcement.isImportant ? AppColors.error.withOpacity(0.1) : AppColors.primary.withOpacity(0.1),
+                    color: announcement.isImportant ? AppColors.error.withValues(alpha: 0.1) : AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(

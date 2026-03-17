@@ -1,11 +1,16 @@
-import '../models/attendance_model.dart';
-import 'api_service.dart';
+import 'package:http/http.dart' as http;
+import '../core/api/api_client.dart';
 
 class AttendanceService {
-  final ApiService _apiService = ApiService();
+  static Future<http.Response> getAttendanceList() async {
+    return await ApiClient.get('/attendance');
+  }
 
-  Future<List<AttendanceRecord>> getAttendanceList() async {
-    final List<dynamic> response = await _apiService.get("/attendance");
-    return response.map((json) => AttendanceRecord.fromJson(json)).toList();
+  static Future<http.Response> checkIn(Map<String, dynamic> data) async {
+    return await ApiClient.post('/attendance/manual', data);
+  }
+
+  static Future<http.Response> getMyAttendance() async {
+    return await ApiClient.get('/attendance/me');
   }
 }

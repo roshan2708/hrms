@@ -4,6 +4,7 @@ import '../../controllers/dashboard_controller.dart';
 import '../stat_card.dart';
 import '../dashboard_section.dart';
 import '../metric_bar.dart';
+import '../action_tile.dart';
 
 class AdminDashboard extends GetView<DashboardController> {
   const AdminDashboard({super.key});
@@ -49,24 +50,52 @@ class AdminDashboard extends GetView<DashboardController> {
           title: 'Admin Actions',
           child: Column(
             children: [
-              ListTile(
-                leading: const Icon(Icons.business_rounded, color: Colors.blue),
-                title: const Text('Manage Departments'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: controller.openDepartments,
-              ),
-              const Divider(height: 1),
-              ListTile(
-                leading: const Icon(Icons.groups_rounded, color: Colors.orange),
-                title: const Text('Employee Directory'),
-                trailing: const Icon(Icons.chevron_right),
+              ActionTile(
+                icon: Icons.groups_rounded,
+                title: 'Employees',
+                subtitle: 'Manage organization staff',
                 onTap: controller.openDirectory,
               ),
-              const Divider(height: 1),
-              ListTile(
-                leading: const Icon(Icons.settings_rounded, color: Colors.grey),
-                title: const Text('System Settings'),
-                trailing: const Icon(Icons.chevron_right),
+              ActionTile(
+                icon: Icons.calendar_month_rounded,
+                title: 'Attendance',
+                subtitle: 'Monitor clock-in/out records',
+                onTap: controller.openAttendance,
+              ),
+              ActionTile(
+                icon: Icons.list_alt_rounded,
+                title: 'Daily Tasks',
+                subtitle: 'Track operational progress',
+                onTap: controller.openTasks,
+              ),
+              ActionTile(
+                icon: Icons.payments_rounded,
+                title: 'Expenses & Loans',
+                subtitle: 'Manage financial requests',
+                onTap: controller.openExpenses,
+              ),
+              ActionTile(
+                icon: Icons.description_rounded,
+                title: 'Pay Slips',
+                subtitle: 'Generate and view salary documents',
+                onTap: controller.openPaySlips,
+              ),
+              ActionTile(
+                icon: Icons.time_to_leave_rounded,
+                title: 'Leave Requests',
+                subtitle: 'Approve or manage time off',
+                onTap: controller.openLeaveManagement,
+              ),
+              ActionTile(
+                icon: Icons.business_rounded,
+                title: 'Departments',
+                subtitle: 'Hierarchy management',
+                onTap: controller.openDepartments,
+              ),
+              ActionTile(
+                icon: Icons.settings_rounded,
+                title: 'Settings',
+                subtitle: 'System preferences',
                 onTap: controller.openSettings,
               ),
             ],
