@@ -38,7 +38,7 @@ class OtpController extends GetxController {
 
   Future<void> verifyOtp() async {
     final otp = otpControllers.map((e) => e.text).join();
-    if (otp.length != 6) {
+    if (otp.length != 4) {
       Get.snackbar('Error', 'Please enter 6-digit OTP', backgroundColor: Colors.red, colorText: Colors.white);
       return;
     }

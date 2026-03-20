@@ -2,12 +2,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  static const String baseUrl = "http://10.216.87.252:5000/api";
+  static const String baseUrl = "http://10.216.87.30:5000/api";
   
-  static Map<String, String> get _headers => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
+  static String? token;
+
+  static Map<String, String> get _headers {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if (token != null) {
+      headers['Authorization'] = 'Bearer $token';
+    }
+    return headers;
+  }
 
   static Future<http.Response> get(String endpoint) async {
     final response = await http.get(

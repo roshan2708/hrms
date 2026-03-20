@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../core/api/api_client.dart';
 import '../services/auth_service.dart';
 import '../core/utils/validators.dart';
 
@@ -35,9 +37,11 @@ class LoginController extends GetxController {
         );
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
-          // Success! 
-          // Note: In a real app we would parse the token from the response
-          // and store it using something like GetStorage.
+          final data = json.decode(response.body);
+          final token = data['token'];
+          if (token != null) {
+            ApiClient.token = token;
+          }
           Get.offAllNamed('/dashboard');
         } else {
           Get.snackbar(
