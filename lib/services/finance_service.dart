@@ -12,7 +12,7 @@ class FinanceService {
 
   static Future<http.Response> getPaySlips() async {
     // Note: Endpoint not explicitly listed in api_integrations.txt but needed for UI parity
-    return await ApiClient.get('/finance/payslips');
+    return await ApiClient.get('/employee/payslips');
   }
 
   static Future<http.Response> getExpenses() async {

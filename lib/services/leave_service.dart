@@ -7,6 +7,6 @@ class LeaveService {
   }
 
   static Future<http.Response> applyLeave(Map<String, dynamic> leaveData) async {
-    return await ApiClient.post('/leave', leaveData);
+    return await ApiClient.post('/leaves/apply', leaveData);
   }
 }

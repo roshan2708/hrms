@@ -2,7 +2,7 @@ import 'dart:async';
 
 class ApiService {
   // Base URL simulation
-  final String baseUrl = "http://10.216.87.30:5000/api";
+  final String baseUrl = "http://10.216.87.252:5000/api";
   
   // Simulated session
   static String currentUserEmail = "employee@hrms.com";

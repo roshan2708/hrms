@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  static const String baseUrl = "http://10.216.87.30:5000/api";
+  static const String baseUrl = "http://10.216.87.252:5000/api";
   
   static String? token;
 
