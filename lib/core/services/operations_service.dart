@@ -1,5 +1,3 @@
-import '../api/api_client.dart';
-
 class OperationsService {
   static Future<List<dynamic>> getCalendarEvents() async {
     return [

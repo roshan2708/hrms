@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/daily_task_controller.dart';
-import '../../core/theme/app_colors.dart';
+
 
 class DailyTaskView extends GetView<DailyTaskController> {
   const DailyTaskView({super.key});

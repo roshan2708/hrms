@@ -1,5 +1,3 @@
-import '../api/api_client.dart';
-
 class AdministrationService {
   static Future<List<dynamic>> getDelegations() async {
     // Simulate API call

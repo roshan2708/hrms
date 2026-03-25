@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/asset_controller.dart';
 import '../../models/asset_model.dart';
-import '../../core/theme/app_colors.dart';
+
 
 class AssetListView extends GetView<AssetController> {
   const AssetListView({super.key});

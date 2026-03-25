@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/branch_controller.dart';
 import '../../models/branch_model.dart';
-import '../../core/theme/app_colors.dart';
+
 
 class BranchListView extends GetView<BranchController> {
   const BranchListView({super.key});

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/leave_controller.dart';
 import '../../models/leave_model.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/utils/validators.dart';
-import 'package:intl/intl.dart';
+import '../../widgets/custom_date_picker.dart';
+import '../../widgets/custom_dropdown_field.dart';
+import '../../widgets/section_header.dart';
 
 class LeaveApplicationView extends StatefulWidget {
   const LeaveApplicationView({super.key});
@@ -35,15 +36,41 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildSectionHeader('Leave Details'),
+              const SectionHeader(title: 'Leave Details'),
               const SizedBox(height: 20),
-              _buildDropdownField(),
+              CustomDropdownField<String>(
+                label: 'Leave Type',
+                value: _leaveType,
+                items: const ['Sick Leave', 'Casual Leave', 'Vacation', 'Other'],
+                itemLabelBuilder: (e) => e,
+                onChanged: (val) => setState(() => _leaveType = val!),
+              ),
               const SizedBox(height: 24),
               Row(
                 children: [
-                  Expanded(child: _buildDatePicker('Start Date', _startDate, true)),
+                  Expanded(
+                    child: CustomDatePicker(
+                      label: 'Start Date',
+                      date: _startDate,
+                      onDateSelected: (picked) {
+                        setState(() {
+                          _startDate = picked;
+                          if (_endDate.isBefore(_startDate)) {
+                            _endDate = _startDate.add(const Duration(days: 1));
+                          }
+                        });
+                      },
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildDatePicker('End Date', _endDate, false)),
+                  Expanded(
+                    child: CustomDatePicker(
+                      label: 'End Date',
+                      date: _endDate,
+                      onDateSelected: (picked) => setState(() => _endDate = picked),
+                      firstDate: _startDate,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -62,118 +89,11 @@ class _LeaveApplicationViewState extends State<LeaveApplicationView> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w800,
-        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary,
-        letterSpacing: -0.5,
-      ),
-    );
-  }
-
-  Widget _buildDropdownField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Leave Type',
-          style: TextStyle(
-            fontSize: 13, 
-            fontWeight: FontWeight.w600, 
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
-          ),
-        ),
-        const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
-          value: _leaveType,
-          onChanged: (val) => setState(() => _leaveType = val!),
-          items: ['Sick Leave', 'Casual Leave', 'Vacation', 'Other']
-              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-              .toList(),
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDatePicker(String label, DateTime date, bool isStart) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13, 
-            fontWeight: FontWeight.w600, 
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
-          ),
-        ),
-        const SizedBox(height: 8),
-        InkWell(
-          onTap: () async {
-            final picked = await showDatePicker(
-              context: context,
-              initialDate: date,
-              firstDate: DateTime.now().subtract(const Duration(days: 0)),
-              lastDate: DateTime.now().add(const Duration(days: 365)),
-            );
-            if (picked != null) {
-              setState(() {
-                if (isStart) {
-                  _startDate = picked;
-                  if (_endDate.isBefore(_startDate)) {
-                    _endDate = _startDate.add(const Duration(days: 1));
-                  }
-                } else {
-                  _endDate = picked;
-                }
-              });
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardTheme.color,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Theme.of(context).dividerTheme.color ?? Colors.grey.shade300),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.calendar_today_rounded, 
-                  size: 18, 
-                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.accent,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  DateFormat('dd MMM').format(date),
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildReasonField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Reason for Leave',
-          style: TextStyle(
-            fontSize: 13, 
-            fontWeight: FontWeight.w600, 
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
-          ),
-        ),
+        const SectionHeader(title: 'Reason for Leave'),
         const SizedBox(height: 8),
         TextFormField(
           controller: _reasonController,

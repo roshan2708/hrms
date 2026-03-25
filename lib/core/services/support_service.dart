@@ -1,5 +1,3 @@
-import '../api/api_client.dart';
-
 class SupportService {
   static Future<List<dynamic>> getTickets() async {
     return [
